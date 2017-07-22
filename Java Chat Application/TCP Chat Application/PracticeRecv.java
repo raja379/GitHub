@@ -20,7 +20,9 @@ public class PracticeRecv extends Frame implements ActionListener{
 						while(s.isConnected()){
 							byte[] buf = new byte[100];	
 							dis.read(buf);
-							tf.setText(new String(buf));
+							String temp = VigenereCipher.decrypt(new String(buf),"ABCD");
+							System.out.println("Decrypted Text: "+temp);
+							tf.setText(temp);
 							Thread.sleep(100);
 						}
 					}catch(Exception e){
@@ -30,8 +32,8 @@ public class PracticeRecv extends Frame implements ActionListener{
 			};
 			setVisible(true);
 			setTitle("Practice Frame");
-			setLayout(null);
-			setSize(1000,1000);
+			setLayout(new GridLayout());
+			setSize(200,200);
 			tf = new TextField();
 			snd = new Button("SEND");
 			snd.addActionListener(this);
@@ -54,7 +56,9 @@ public class PracticeRecv extends Frame implements ActionListener{
 			if(comm.equals("SEND")){
 				String text = tf.getText();
 				if(text.length() > 0){
-					tf.setText("");
+					tf.setText("Message Sent successfully!!!");
+					text = VigenereCipher.encrypt(text,"ABCD");
+					System.out.println("Encrypted Text: "+text);
 					dos.write(text.getBytes());
 				}
 			}
